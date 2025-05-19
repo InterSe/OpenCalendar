@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 // const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // 🔧 This line was used for dynamic API URL switching
-
+const API_BASE_URL = 'https://opencalendar-jfsc.onrender.com';  // or use process.env if dynamic
 
 function UploadComponent({ setParsedData }) {
   const [file, setFile] = useState(null);
@@ -36,7 +36,8 @@ function UploadComponent({ setParsedData }) {
     formData.append('file', file);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+      // const response = await axios.post(`${API_BASE_URL}/upload`, formData, { //
+        const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
