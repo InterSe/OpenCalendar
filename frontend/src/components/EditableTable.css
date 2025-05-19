@@ -1,0 +1,57 @@
+.table-wrapper {
+    margin-top: 2rem;
+    overflow-x: auto;
+  }
+  
+  .editable-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  
+  .editable-table th,
+  .editable-table td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: left;
+  }
+  
+  .editable-table input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .save-btn,
+  .delete-btn,
+  .download-btn {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  
+  .delete-btn {
+    background-color: #d32f2f;
+  }
+  
+  .download-btn {
+    margin-left: auto;
+    margin-bottom: 10px;
+  }
+  
+  .alerts-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  

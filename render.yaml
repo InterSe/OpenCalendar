@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: timetable-backend
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/app.py
+    env: python
+    region: singapore
+    plan: free
+    buildFilter:
+      paths:
+        - backend/**
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11

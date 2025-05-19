@@ -1,0 +1,16 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "https://opencalendar-jfsc.onrender.com/api/$1"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/upload",
+        "destination": "https://opencalendar-jfsc.onrender.com/upload",
+        "permanent": false
+      }
+    ]
+  }
+  

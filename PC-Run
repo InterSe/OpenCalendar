@@ -1,0 +1,293 @@
+Where and How to Run .\venv\Scripts\activate
+
+cd C:\Users\mostl\timetable-to-calendar\backend
+.\venv\Scripts\activate
+
+Notice the (venv) at the beginning — that means the virtual environment is active!
+
+🧠 Why we do this:
+To make sure Python uses the correct libraries installed inside venv (not global Python).
+
+It's cleaner and safer for your project.
+
+4. Then Run Your Flask App
+After activation, you can simply run:
+
+bash
+
+python app.py
+✅ Your backend will now launch correctly, with Flask server running on localhost:5000.
+
+
+So the Full Command Flow Example
+bash
+cd C:\Users\mostl\timetable-to-calendar\backend
+.\venv\Scripts\activate
+python app.py
+
+
+will show ur Debugger PIN: 201-768-713
+
+Extra Tip:
+If you close your terminal or restart your computer,
+👉 you always need to activate the venv again next time you work on backend.
+
+
+
+🔧🖊🔄✨🗑️💻🪄🔥💪✅❌🙌🧑‍💻🚀🔐📤🔗📅✏️☁️❤️💡💾❤️ Made with love — and proudly powered by ChatGPT
+
+https://docs.google.com/spreadsheets/d/11UdSyVBHyNUL8byJ0sYJe_iXx0JsHps4ZwcaCBYFKaQ/edit?usp=sharing
+---------------
+
+plan forward
+
+
+2. Long-Term: Use AI Vision (optional, future upgrade)
+If you want to go very high level, later you can:
+
+Use OCR (for PDF scans) like Tesseract 📜
+
+Use LLMs (like GPT or smaller open models) to "understand" timetable structure
+
+Build a "Document Intelligence" pipeline 🧠
+
+(This is very advanced — you can skip for MVP and think about it after Version 1 launches.)
+
+
+------------------------
+
+
+Bonus (Optional, Advanced)
+Later if you want, you can even allow:
+
+Direct import from Google Sheets via Google Sheets API.
+(Instead of uploading a file — just give the link!)
+(This is optional, slightly more technical but possible.)
+
+
+
+------------------------------
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/InterSe/timetable-to-calendar.git
+cd timetable-to-calendar
+
+# 2. Set up backend
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py
+
+# 3. Set up frontend
+cd ../frontend
+npm install
+npm start
+
+
+----------------------
+26042025 To push all file to github>>
+
+cd path\to\timetable-to-calendar
+
+git add .
+git commit -m "Push full project from PC (frontend + backend)"
+✅ This tells Git: "I'm ready to push all files, including backend."
+
+git push
+
+✅ You'll see:
+
+Enumerating objects...
+To https://github.com/InterSe/timetable-to-calendar
+Boom 💥 — your entire project is now in the cloud, including your backend/ folder.
+
+
+✅ Final Push Flow (Run This)
+bash
+Copy
+Edit
+git config --global user.name "InterSe"
+git config --global user.email "you@example.com"
+
+git add .
+git commit -m "Push full project from PC"
+
+git branch -M main
+git push -u origin main
+(Just replace "you@example.com" with your real GitHub email)
+
+--------------------------
+
+🧲 Bonus: Pull it from Mac later
+Once you've pushed from PC, switch to your Mac and run:
+
+bash
+cd ~/Desktop/timetable-to-calendar
+git pull origin main
+
+You'll instantly get the latest version with backend included 🎯
+
+-----------------------
+
+
+✅ Step 1: Initialize Git
+Make sure you're inside your project root folder:
+
+bash
+Copy
+Edit
+cd C:\Users\mostl\timetable-to-calendar
+Then run:
+
+bash
+Copy
+Edit
+git init
+✅ This tells Git to start tracking changes in this folder.
+
+✅ Step 2: Add Your Remote GitHub Repo
+Now tell Git where to push:
+
+bash
+Copy
+Edit
+git remote add origin https://github.com/InterSe/timetable-to-calendar.git
+If you already set a remote before and you're getting an error, run this instead:
+
+bash
+Copy
+Edit
+git remote set-url origin https://github.com/InterSe/timetable-to-calendar.git
+✅ Step 3: Add, Commit, and Push Everything
+bash
+Copy
+Edit
+git add .
+git commit -m "Initial push of full project from PC"
+git branch -M main
+git push -u origin main
+
+
+
+
+----------------------
+
+✅ What To Do Now: Resolve the Merge Conflicts
+📍 1. Open Each Conflicted File
+Git marked all conflicts inside the files using these tags:
+
+plaintext
+Copy
+Edit
+<<<<<<< HEAD
+// your local version
+=======
+# GitHub version
+>>>>>>> origin/main
+✂️ 2. Choose which version to keep
+Edit each file and:
+
+Keep either your local version or the GitHub version
+
+Or merge them manually
+
+Then delete all the <<<<<<<, =======, and >>>>>>> lines
+
+For example, if this is in README.md:
+
+diff
+Copy
+Edit
+<<<<<<< HEAD
+Push full project from PC
+=======
+Timetable ➔ Google Calendar Converter
+>>>>>>> origin/main
+You’d keep the one you want, like:
+
+markdown
+Copy
+Edit
+Timetable ➔ Google Calendar Converter
+✅ 3. Stage and Commit After Resolving All Conflicts
+Once you've cleaned up all conflicts:
+
+bash
+Copy
+Edit
+git add .
+git commit -m "Resolved merge conflicts"
+git push -u origin main
+✅ That will complete the merge and push all of your PC work to GitHub.
+
+If you’d like help reviewing a specific file (like App.js, README.md, etc.), just say the word and I’ll guide you line-by-line or auto-resolve the full batch for you.
+
+Once done, everything will be synced beautifully across PC, Mac, and GitHub 💡📁☁️
+
+
+
+
+
+
+You said:
+that a way keep all local versions to solve all conflicts?
+
+
+ChatGPT said:
+🔥 Yes, absolutely — if you're confident your local versions are correct and you just want to keep everything from your PC, you can tell Git:
+
+“Resolve all merge conflicts by keeping my local version of every file.”
+
+✅ Command to Keep All Local Versions
+Run this:
+
+bash
+Copy
+Edit
+git checkout --ours .
+That means:
+
+“For every conflicted file, use my (local/PC) version.”
+
+Then:
+
+bash
+Copy
+Edit
+git add .
+git commit -m "Resolved all conflicts by keeping local versions"
+git push -u origin main
+🧠 Why this works
+
+Git Ref	Meaning
+--ours	Your local version (what's on your PC)
+--theirs	The version from GitHub (remote)
+So git checkout --ours . tells Git:
+
+Use all my PC files and discard the remote ones for this merge.
+
+
+------------------------------
+
+🌐 What’s Next?
+🔁 From your Mac:
+Now you can just run:
+
+bash
+Copy
+Edit
+cd ~/Desktop/timetable-to-calendar
+git pull origin main
+✅ That’ll download everything from PC, including all the backend, updated frontend, etc.
+
+---------------
+
+
+
+
+
+
+
+
