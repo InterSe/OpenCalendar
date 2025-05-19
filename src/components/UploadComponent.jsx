@@ -9,6 +9,13 @@ import {
   Divider
 } from '@mui/material';
 
+import API_BASE_URL from '../utils/api';
+
+const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+  headers: { "Content-Type": "multipart/form-data" }
+});
+
+
 // const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // 🔧 This line was used for dynamic API URL switching
 const API_BASE_URL = 'https://opencalendar-jfsc.onrender.com';  // or use process.env if dynamic
 
