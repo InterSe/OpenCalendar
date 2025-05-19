@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Box, Typography, Input, Stack, Divider } from '@mui/material';
+import API_BASE_URL from '../utils/api';
 
-import API_BASE_URL from '../utils/api'; || "http://localhost:5000";
 
 function UploadComponent({ setParsedData }) {
   const [file, setFile] = useState(null);
@@ -28,7 +28,6 @@ function UploadComponent({ setParsedData }) {
     formData.append("file", file);
 
     try {
-      const API_URL = process.env.REACT_APP_API_BASE_URL;
       const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
