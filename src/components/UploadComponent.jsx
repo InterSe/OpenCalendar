@@ -9,7 +9,8 @@ import {
   Divider
 } from '@mui/material';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+// const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // 🔧 This line was used for dynamic API URL switching
+
 
 function UploadComponent({ setParsedData }) {
   const [file, setFile] = useState(null);
