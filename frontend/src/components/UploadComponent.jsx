@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Box, Typography, Input, Stack, Divider } from '@mui/material';
-import API_BASE_URL from '../utils/api';
-
 
 function UploadComponent({ setParsedData }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+
+  // Automatically detect local or production backend
+  const apiBaseUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5000"
+      : "https://timetable-backend.onrender.com"; // Replace with your Render backend URL
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -19,32 +23,25 @@ function UploadComponent({ setParsedData }) {
       return;
     }
 
-    if (!file.name.endsWith(".xlsx")) {
-      setError("Only .xlsx files are supported.");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+      const response = await axios.post(`${apiBaseUrl}/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
       console.log("✅ Parsed data received from backend:", response.data);
       setParsedData(response.data);
-      setFile(null);
-      setError("");
 
     } catch (err) {
       console.error("❌ Upload failed:", err);
-      setError("Failed to upload file. Please check that the backend is running.");
+      setError("Upload failed. Please ensure the backend is running and accessible.");
     }
   };
 
   return (
-    <Box>
+    <Box sx={{ mt: 2 }}>
       {/* 🧾 Download Template Section */}
       <Typography variant="h6" gutterBottom>
         Step 1: Download Excel Template
@@ -70,6 +67,7 @@ function UploadComponent({ setParsedData }) {
       <Typography variant="h6" gutterBottom>
         Step 2: Upload Your Completed Timetable (.xlsx only)
       </Typography>
+
       <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
         <Input type="file" onChange={handleFileChange} />
         <Button variant="contained" onClick={handleUpload}>

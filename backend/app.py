@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 # CORS(app)  In production, restrict to Vercel or Netlify domain
-CORS(app, resources={r"/*": {"origins": "https://justcalendar.netlify.app"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -103,4 +103,5 @@ def normalize_weeks(week_str):
     return cleaned if cleaned else "-"
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 10000))  # Render sets PORT
+    app.run(debug=True, host="0.0.0.0", port=port)
