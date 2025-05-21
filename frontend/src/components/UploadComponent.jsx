@@ -6,11 +6,10 @@ function UploadComponent({ setParsedData }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
 
-  // Automatically detect local or production backend
-  const apiBaseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:5000"
-      : "https://timetable-backend.onrender.com"; // Replace with your Render backend URL
+  const API_URL =
+    process.env.NODE_ENV === "production"
+      ? "https://timetable-backend.onrender.com/upload" // Replace with your actual Render URL
+      : "http://localhost:5000/upload";
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -27,7 +26,7 @@ function UploadComponent({ setParsedData }) {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`${apiBaseUrl}/upload`, formData, {
+      const response = await axios.post(API_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
@@ -36,13 +35,12 @@ function UploadComponent({ setParsedData }) {
 
     } catch (err) {
       console.error("❌ Upload failed:", err);
-      setError("Upload failed. Please ensure the backend is running and accessible.");
+      setError("Failed to upload file. Please check the server and file format.");
     }
   };
 
   return (
-    <Box sx={{ mt: 2 }}>
-      {/* 🧾 Download Template Section */}
+    <Box>
       <Typography variant="h6" gutterBottom>
         Step 1: Download Excel Template
       </Typography>
@@ -51,11 +49,9 @@ function UploadComponent({ setParsedData }) {
       </Typography>
       <Button
         variant="outlined"
-        color="primary"
-        component="a"
         href="https://docs.google.com/spreadsheets/d/11UdSyVBHyNUL8byJ0sYJe_iXx0JsHps4ZwcaCBYFKaQ/export?format=xlsx"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         sx={{ mb: 3 }}
       >
         Download Excel Template
@@ -63,11 +59,9 @@ function UploadComponent({ setParsedData }) {
 
       <Divider sx={{ my: 3 }} />
 
-      {/* 📤 Upload Timetable Section */}
       <Typography variant="h6" gutterBottom>
         Step 2: Upload Your Completed Timetable (.xlsx only)
       </Typography>
-
       <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
         <Input type="file" onChange={handleFileChange} />
         <Button variant="contained" onClick={handleUpload}>

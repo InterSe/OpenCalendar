@@ -6,7 +6,8 @@ import re
 import os
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)  In production, restrict to Vercel or Netlify domain
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -28,35 +29,45 @@ def upload_file():
     except Exception as e:
         return jsonify({"error": f"Failed to read Excel: {str(e)}"}), 400
 
-    expected_columns = [
-        'Course ID', 'Course Name', 'Instructor', 'Start Date',
-        'Start Time', 'End Time', 'Weeks', 'Room', 'Remarks'
-    ]
+    # Flexible matching of column names
+    standard_fields = {
+        'course': ['course id', 'course', 'id'],
+        'course_name': ['course name', 'name'],
+        'instructor': ['instructor', 'lecturer'],
+        'start_date': ['start date', 'date'],
+        'start_time': ['start time', 'from'],
+        'end_time': ['end time', 'to'],
+        'weeks': ['weeks', 'week'],
+        'room': ['room', 'venue', 'location'],
+        'remarks': ['remarks', 'note', 'comments']
+    }
 
-    df.columns = expected_columns[:len(df.columns)]
-    for col in expected_columns:
-        if col not in df.columns:
-            df[col] = ""
+    # Normalize column headers
+    col_map = {}
+    normalized = {col.lower().strip(): col for col in df.columns}
+    for key, aliases in standard_fields.items():
+        for alias in aliases:
+            if alias in normalized:
+                col_map[normalized[alias]] = key
+                break
 
-    df['Start Date'] = df['Start Date'].apply(normalize_date)
-    df['Start Time'] = df['Start Time'].apply(normalize_time)
-    df['End Time'] = df['End Time'].apply(normalize_time)
-    df['Weeks'] = df['Weeks'].apply(normalize_weeks)
+    df = df.rename(columns=col_map)
+
+    # Ensure all fields exist
+    for key in standard_fields:
+        if key not in df.columns:
+            df[key] = "-"
+
+    df = df[list(standard_fields)]  # reorder columns
+
+    # Clean
+    df['start_date'] = df['start_date'].apply(normalize_date)
+    df['start_time'] = df['start_time'].apply(normalize_time)
+    df['end_time'] = df['end_time'].apply(normalize_time)
+    df['weeks'] = df['weeks'].apply(normalize_weeks)
 
     df.fillna("-", inplace=True)
     df = df.astype(str).applymap(lambda x: x.strip() if x.strip() else "-")
-
-    df.rename(columns={
-        'Course ID': 'course',
-        'Course Name': 'course_name',
-        'Instructor': 'instructor',
-        'Start Date': 'start_date',
-        'Start Time': 'start_time',
-        'End Time': 'end_time',
-        'Weeks': 'weeks',
-        'Room': 'room',
-        'Remarks': 'remarks'
-    }, inplace=True)
 
     return jsonify(df.to_dict(orient='records'))
 
@@ -71,10 +82,10 @@ def normalize_date(date_val):
     except:
         return "-"
 
-def normalize_time(time_str):
-    if pd.isnull(time_str):
+def normalize_time(time_val):
+    if pd.isnull(time_val):
         return "-"
-    time_str = str(time_str).strip().replace(" ", "")
+    time_str = str(time_val).strip().replace(" ", "")
     parts = re.split(r"[:.]", time_str)
     if len(parts) >= 2:
         try:
@@ -82,7 +93,7 @@ def normalize_time(time_str):
             m = int(parts[1])
             return f"{h:02d}:{m:02d}"
         except:
-            pass
+            return "-"
     return "-"
 
 def normalize_weeks(week_str):
@@ -92,4 +103,5 @@ def normalize_weeks(week_str):
     return cleaned if cleaned else "-"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Render sets PORT
+    app.run(debug=True, host="0.0.0.0", port=port)
