@@ -92,4 +92,5 @@ def normalize_weeks(week_str):
     return cleaned if cleaned else "-"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
