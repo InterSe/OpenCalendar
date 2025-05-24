@@ -6,10 +6,7 @@ function UploadComponent({ setParsedData }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
 
-  const API_URL =
-    process.env.NODE_ENV === "production"
-      ? "https://timetable-backend.onrender.com/upload" // Replace with your actual Render URL
-      : "http://localhost:5000/upload";
+  const API_URL = `${process.env.REACT_APP_API_BASE_URL}/upload`;
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -32,7 +29,6 @@ function UploadComponent({ setParsedData }) {
 
       console.log("✅ Parsed data received from backend:", response.data);
       setParsedData(response.data);
-
     } catch (err) {
       console.error("❌ Upload failed:", err);
       setError("Failed to upload file. Please check the server and file format.");
